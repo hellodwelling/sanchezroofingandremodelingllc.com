@@ -1,3 +1,0 @@
-User-agent: *
-Disallow: 
-Sitemap: https://sanchezroofingandremodelingllc.com/sitemap.xml
