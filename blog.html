@@ -1073,6 +1073,27 @@
             <div class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
                 
                     <div class="flex flex-col bg-white rounded-lg shadow-lg p-8 items-start">
+                        <div class="text-left text-sm text-gray-500">Aug 29, 2025</div>
+                        <div class="text-left text-xl text-gray-900 font-semibold mt-2">
+                            <a
+                                class="text-left text-xl text-gray-900 font-semibold"
+                                href="blog-the-future-of-home-renovation"
+                            >
+                                The Future of Home Renovation: Advanced Roofing Solutions by Sanchez
+                            </a>
+                        </div>
+                        <div class="text-left text-base text-gray-500 line-clamp-5 mt-4">As we propel into the future, advancements in home renovation technology continue to reshape the building industry, especially in the field of roofing. Homeowners today seek more than just protection…</div>
+                        <div class="text-left mt-4 text-primary">
+                            <a
+                                class="text-primary font-semibold"
+                                href="blog-the-future-of-home-renovation"
+                            >
+                                Read full post
+                            </a>
+                        </div>
+                    </div>
+                
+                    <div class="flex flex-col bg-white rounded-lg shadow-lg p-8 items-start">
                         <div class="text-left text-sm text-gray-500">Aug 18, 2025</div>
                         <div class="text-left text-xl text-gray-900 font-semibold mt-2">
                             <a
@@ -2480,7 +2501,7 @@
                 </div>
                 <div id="error-state-modal" style="padding-left: 24px; padding-right: 24px;"></div>
 
-                <form id="contactModal" class="flex flex-col flex-grow overflow-hidden sm:w-full" onsubmit="send_sms('Sanchez-Roofing-and-Remodeling', 'contact-modal', '(504) 272-4904')">
+                <form id="contactModal" class="flex flex-col flex-grow overflow-hidden sm:w-full" onsubmit="send_sms('Sanchez-Roofing-and-Remodeling', 'contact-modal', deobfuscateNumber('(504) 272-4904'))">
                     <div
                       class="flex flex-col flex-shrink-1 h-auto sm:h-full overflow-y-auto overflow-x-hidden pt-6 pb-4"
                     >
@@ -3280,7 +3301,7 @@
     
 
     
-
+    
     <script>
         window.addEventListener("load", function() {
             setTimeout(function() {
@@ -3290,6 +3311,49 @@
             }, 5000);
         });
     </script>
+    
+    <script>
+  /**
+   * Phone number obfuscation to prevent bot scraping
+   * Decodes phone numbers from data attributes and initiates calls
+   */
+  function deobfuscateNumber(number) {
+    const isObfuscated = "False" === "True";
+    if (!isObfuscated) {
+      return number;
+    }
+    const binaryPD = atob(number);
+    const bytesPD = Uint8Array.from(binaryPD, (c) => c.charCodeAt(0));
+    const decodedPD = new TextDecoder("utf-8").decode(bytesPD);
+    const phone = decodedPD.slice(20);
+
+    return phone;
+  }
+
+  function initiateCall(element) {
+    const pref = "tel:";
+
+    try {
+      const pd = element.getAttribute("data-phone");
+      if (!pd) {
+        console.error("No phone number found on element to call");
+        return;
+      }
+      const phone = deobfuscateNumber(pd);
+
+      window.location.href = pref + phone;
+    } catch (error) {
+      console.error("Error:", error);
+
+      // Try calling the phone number
+      const fallbackPhone = element.getAttribute("data-phone");
+      if (fallbackPhone) {
+        window.location.href = pref + fallbackPhone.replace(/[^0-9]/g, "");
+      }
+    }
+  }
+</script>
+
 </body>
 
 </html>
